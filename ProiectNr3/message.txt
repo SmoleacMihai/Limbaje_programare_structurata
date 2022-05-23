@@ -1,0 +1,234 @@
+#include <iostream>
+#include <stdlib.h>
+#include <math.h>
+#include <iomanip>
+#include <conio.h>
+
+
+#define NMAX 120
+
+using namespace std;
+//interfata programului
+int Citire(int n, int a[]);//la intrare n - numarul de elemente; la iesire: a- tabloul de virste; functia intoarce: 1 - ok, 0- error
+void Afisare(int n, int a[],char s[]);//la intrare n - numarul de elemente, a- tabloul de virste
+int Minimum(int n, int a[]);//la intrare n - numarul de elemente, a- tabloul de virste; la iesire valoarea minima
+int Maximum(int n, int a[]);//la intrare n - numarul de elemente, a- tabloul de virste; la iesire valoarea maxima
+float Media(int n, int a[]);// la intrare n - numarul de elemente, a- tabloul de virste; la iesire virsta medie
+int Sortare(int n, int a[]);//la intrare n - numarul de elemente, a- tabloul de virste;  la iesire a- tabloul aranjat functia intoarce: 1 - ok, 0- error
+int Rotire(int n, int a[]);//la intrare n - numarul de elemente, a- tabloul de virste;  la iesire a- tabloul rotit functia intoarce: 1 - ok, 0- error
+int Adaugare(int &n, int a[], int val); // la intrare n - numarul de elemente, a- tabloul de virste, val - elementul adaugat; la iesire n- se mareste cu 1 a- tablou
+int Adaugare(int &n, int a[], int val, char);
+int Adaugare(int &n, int a[], int val, int p);//inainte de p- pozitia
+int Adaugare(int &n, int a[], int val, int p, char);// dupa p
+int Cautare(int n, int a[], int val );//la iesire p- pozitia sau -1
+int Stergere(int &n, int a[], int val); // la intrare n - numarul de elemente, a- tabloul de virste, val - elementul adaugat; la iesire n- se scade cu 1 a- tablou
+int Clasificare(int n, int a[], int m, int b[] ); // la intrare n - numarul de elemente, a- tabloul de virste, m - nuumarul de clasificari adaugat; la iesire n- mareste cu 1 b- tablou nou
+int Generare(int n, int a[]); // la intrare n - numarul de elemente, a- tabloul de virste, val - elementul adaugat; la iesire n- mareste cu 1 a- tablou
+
+int main()
+{
+    int key;
+    int n = 10;
+    int ncaut;
+    int virsta[NMAX]= {10, 20, 30, 21, 15, 45, 61, 19, 27, 49};
+    //citire (n, note)
+    cout << "Tabloul de note ocupa: " << sizeof(virsta) << " Bt" << endl;
+    do
+    {
+        system("cls");
+        cout << "Proiect nr.3 elaborat de Adam Denis" << endl;
+        cout << " Tema: virstele a familiei" << endl;
+        cout << "\n1. De determinat într-un tabel de numere virsta minima şi virsta maxima.";
+        cout << "\n2. De determinat într-un tabel de numere virsta medie.";
+        cout << "\n3. De aranjat un tabel de virste în ordine descrescatoare.";
+        cout << "\n4. De efectuat rotirea la stanga a elementelor tabelului de 3 ori.";
+        cout << "\n5. De adaugat date în tabelul de virste.";
+        cout << "\n6. De sters date din tabelul de numerele.";
+        cout << "\n7. Clasificarea virstelor.";
+        cout << "\n8. Generarea tabelului.";
+        cout << "\n0. Stop";
+        cout << "\n\n\t alegeti de la 0 la 8 -> ";
+        cin >> key;
+        switch(key)
+        {
+        case 1:
+            Afisare(n, virsta, "initial");
+            cout << "\nCea mai mica virsta este: " << Minimum(n, virsta);
+            cout << "\nCea mai mare virsta este: " << Maximum(n, virsta);
+            break;
+        case 2:
+            Afisare(n, virsta, "initial");
+            cout << "\n Virsta medie este: " << Media(n, virsta);
+            break;
+        case 3:
+            Afisare(n, virsta, "inital");
+            Sortare(n, virsta);
+            Afisare(n, virsta, "aranjat");
+            break;
+        case 4:
+            Afisare(n, virsta, "inital");
+            Rotire(n, virsta);
+            Afisare(n, virsta, "rotit");
+            break;
+       case 5:
+            Afisare(n, virsta, "inital");
+            Adaugare(n, virsta, 19, 'A');
+            Afisare(n, virsta, "Adaugat");
+            break;
+        case 6:
+            cout << "\n Introduceti ce valoare trebuie de sters: ";
+            cin >> ncaut;
+            if ((val = Cautare(n, virsta, ncaut)) != -1)
+            Stergere(n, virsta, /*val*/Cautare(n, virsta, ncaut));
+            Afisare(n, virsta, "sters");
+            break;
+        }
+        getch();
+    }
+    while(key);
+    return 0;
+}
+int Citire(int n, int a[])
+{
+    return 1;
+}
+void Afisare(int n, int a[],char s[])
+{
+    cout << "Tabloul de note " << s << " \n";
+    for (int i = 0; i < n; i++)
+        cout << setw(12) << a[i];
+    cout << endl;
+}
+int Minimum(int n, int a[])
+{
+    int aux = a[0];
+    for (int i = 1; 1 < n; i++)
+        if (a[i] < aux) aux = a[i];
+    return aux;
+}
+int Maximum(int n, int a[])
+{
+    int aux = a[0];
+    for (int i = 1; 1 < n; i++)
+        if (a[i] > aux) aux = a[i];
+    return aux;
+}
+float Media(int n, int a[])
+{
+    int aux = 0;
+    if (n <= 0) return 0;
+    for (int i = 1; 1 < n; i++)
+        aux += a[i];
+    aux /= n;
+    return aux;
+}
+int Sortare(int n, int a[])
+{
+    int k = 0, aux;
+    bool change;
+    do
+    {
+        change = false;
+        k++;
+        for (int i = 0; i < n-k; i++)
+            if(a[i] < a[i+1])
+            {
+                aux = a[i];
+                a[i] = a[i+1];
+                a[i+1] = aux;
+                change = true;
+            }
+    }
+    while(change);
+    return 1;
+}
+int Rotire(int n, int a[])
+{
+    //1
+    /*for (int j = 0; j < 3; j++)
+    {
+        int temp = a[0];
+        for (int i = 0; i < n - 1; i++)
+        {
+            a[i] = a[i + 1];
+        }
+        a[n - 1] = temp;
+    }*/
+    //2
+     int i, b[NMAX];
+    for ( i = 0; i < 3; i++ )
+        b[i] = a[i];
+    for( i = 3; i < n; i++)
+        a[i-3]=a[i];
+    for ( i = n - 3; i < n ; i++)
+        a[i]=b[i- n + 3 ];
+    return 1;
+}
+//1 2 3 4 5 6
+//4 5 6 1 2 3
+int Adaugare(int &n, int a[], int val)//la inceput
+{
+        for (int i = n; i > 0 ; i--)
+        {
+            a[i] = a[i - 1];
+        }
+        a[0] = val;
+        n++;
+}
+int Adaugare(int &n, int a[], int val, char)//la capat
+{
+        a[n++] = val;
+}
+int Adaugare(int &n, int a[], int val, int p)//la inceput
+{
+        for (int i = n; i > 0 ; i--)
+        {
+            a[i] = a[i - 1];
+        }
+        a[0] = val;
+        n++;
+}
+int Adaugare(int &n, int a[], int val, int p, char)//la inceput
+{
+        for (int i = n; i > 0 ; i--)
+        {
+            a[i] = a[i - 1];
+        }
+        a[0] = val;
+        n++;
+}
+
+/*initial: 1 2 3 4 5 6
+final: a) 1 2 3 4 5 6 10 la sfirsit
+b) 10 1 2 3 4 5 6 la inceput
+c) 1 2 10 3 4 5 6 innainte de 3
+d) 1 2 3 10 4 5 6 dupa 3*/
+int Cautare(int n, int a[], int val )
+{
+    for ( int i = 0; i <= n; i++)
+    {
+        if (a[i] == val )
+            return i;
+    }
+    return -1 ;
+}
+int Stergere(int &n, int a[], int val)
+{
+    if (val != -1)
+    {
+        for (int i = val; i <= n; i++)
+        {
+            a[i] = a[i+1];
+        }
+    }
+
+    return 1;
+}
+int Clasificare(int n, int a[], int m, int b[] )
+{
+    return 1;
+}
+int Generare(int n, int a[])
+{
+    return 1;
+}
